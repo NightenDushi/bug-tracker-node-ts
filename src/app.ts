@@ -1,4 +1,5 @@
 import express from 'express';
+const user_router = require('./routes/user');
 const app = express();
 var cors = require('cors');
 const port = 3000;
@@ -6,6 +7,7 @@ const port = 3000;
 app.use(cors({
   origin: 'http://localhost:5173'
 }))
+app.use('/user',user_router);
 
 app.get('/', (req, res) => {
   res.send('Hello World! :)');
