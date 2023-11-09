@@ -4,5 +4,5 @@ export type DataContainer<T> = {
     getAll:()=>T[],
     set:(id:number, value:T)=>T,
     Add:(id:number, value:T)=>T,
-    Delete:(id:number)=>boolean,
+    Delete:(id:number)=>T[],
 }
