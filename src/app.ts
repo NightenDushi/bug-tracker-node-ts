@@ -1,4 +1,5 @@
 import express from 'express';
+import 'dotenv/config'
 const user_router = require('./routes/user');
 const ticket_router = require('./routes/ticket');
 const app = express();

@@ -1,12 +1,14 @@
 import express from 'express';
 const user_router = express.Router();
-import data from '../data/user_memory';
+import data from '../data/user_psql';
 
-user_router.get('/', (req, res)=>{
-    res.send(data.getAll())
+user_router.get('/', async (req, res)=>{
+    const users = await data.getAll();
+    res.send(users)
 });
-user_router.get('/:id', (req, res)=>{
-    res.send(data.get(+req.params.id))
+user_router.get('/:id', async (req, res)=>{
+    const user = await data.get(+req.params.id);
+    res.send(user)
 });
 
 user_router.post('/', (req, res)=>{

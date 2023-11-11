@@ -25,7 +25,7 @@ function set(id:number, value:UserType):UserType{
 
     return users[RequestedUserIndex]
 }
-function Add(id:number, value:UserType):UserType{
+function Add(value:UserType):UserType{
     value.id = id_increment;
     id_increment += 1;
     users.push(value);
