@@ -11,14 +11,14 @@ user_router.get('/:id', async (req, res)=>{
     res.send(user)
 });
 
-user_router.post('/', (req, res)=>{
-    res.send(data.Add(req.body))
+user_router.post('/', async (req, res)=>{
+    res.send(await data.Add(req.body))
 })
-user_router.put('/:id', (req, res)=>{
-    res.send(data.set(+req.params.id, req.body));
+user_router.put('/:id', async (req, res)=>{
+    res.send(await data.set(+req.params.id, req.body));
 })
-user_router.delete('/:id', (req, res)=>{
-    res.send(data.Delete(+req.params.id));
+user_router.delete('/:id', async (req, res)=>{
+    res.send(await data.Delete(+req.params.id));
 })
 
 module.exports = user_router;
