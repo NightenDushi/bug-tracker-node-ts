@@ -9,6 +9,6 @@ export type TicketType = {
     body:string,
     tags:ITags[],
     person_assigned:number[],
-    dueDate?:Date,
+    dueDate?:string, //We keep this value as a string to simplify convertion to js object
     comments:CommentType[];
 }

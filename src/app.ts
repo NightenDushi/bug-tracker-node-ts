@@ -2,6 +2,7 @@ import express from 'express';
 import 'dotenv/config'
 const user_router = require('./routes/user');
 const ticket_router = require('./routes/ticket');
+const tag_router = require('./routes/tag');
 const app = express();
 var cors = require('cors');
 const port = 3000;
@@ -12,7 +13,8 @@ app.use(cors({
 }))
 
 app.use('/user',user_router);
-app.use('/tickets',ticket_router);
+app.use('/ticket',ticket_router);
+app.use('/tag',tag_router);
 
 app.get('/', (req, res) => {
   res.send('Hello World! :)');
