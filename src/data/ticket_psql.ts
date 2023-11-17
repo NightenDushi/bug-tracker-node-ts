@@ -13,14 +13,15 @@ async function getAll():Promise<TicketType[]>{
 
 async function set(id:number, value:TicketType):Promise<TicketType>{
     await pool.query(`UPDATE tickets
-                    SET (isDone, isDraft, urgency, title, body, tags, person_assigned, dueDate, comments) 
+                    SET ("isDone", "isDraft", "urgency", "title", "body", "tags", "person_assigned", "dueDate", "comments") 
                     = ($1, $2, $3, $4, $5, $6, $7, $8, $9) WHERE id = $10`,
                     [value.isDone, value.isDraft, value.urgency, value.title, value.body,
                         value.tags, value.person_assigned, value.dueDate, value.comments, id]);
     return get(id)
 }
 async function Add(value:TicketType):Promise<TicketType>{
-    await pool.query(`INSERT INTO tickets (isDone, isDraft, urgency, title, body, tags, person_assigned, dueDate, comments) 
+    await pool.query(`INSERT INTO tickets ("isDone", "isDraft", "urgency", "title", "body",
+                                            "tags", "person_assigned", "dueDate", "comments") 
                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
                     [value.isDone, value.isDraft, value.urgency, value.title, value.body,
                         value.tags, value.person_assigned, value.dueDate, value.comments]);
