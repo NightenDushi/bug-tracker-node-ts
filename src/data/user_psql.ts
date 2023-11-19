@@ -7,7 +7,7 @@ async function get(id:number):Promise<UserType>{
     return result.rows[0];
 }
 async function getAll():Promise<UserType[]>{
-    const result = await pool.query('SELECT * FROM users', [])
+    const result = await pool.query('SELECT * FROM users ORDER BY id', [])
     return result.rows
 }
 //NOTE(Nathan) For now we set the whole object at once.
