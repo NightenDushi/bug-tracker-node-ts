@@ -22,8 +22,8 @@ async function set(id:number, value:CommentType):Promise<CommentType>{
     return get(id)
 }
 async function Add(value:CommentType):Promise<CommentType>{
-    await pool.query(`INSERT INTO comments ("senderId", body, date) VALUES ($1, $2, $3)`,
-                    [value.senderId, value.body, value.date]);
+    await pool.query(`INSERT INTO comments ("ticketId", "senderId", body, date) VALUES ($1, $2, $3, $4)`,
+                    [value.ticketId, value.senderId, value.body, value.date]);
     const result = await pool.query('SELECT * FROM comments ORDER BY id DESC LIMIT 1');
     return result.rows[0]
 }
@@ -32,11 +32,20 @@ async function Delete(id:number, pTicketId:number):Promise<CommentType[]>{
     return getAll(pTicketId)
 }
 
-const DBData:DataContainer<CommentType> = {
+export async function Like(id:number, pUserId:number):Promise<CommentType>{
+    if (pUserId !== undefined){
+        const UpdatedValues = await pool.query('UPDATE comments SET likes = ARRAY_APPEND(likes, $1) WHERE id = $2 AND NOT $1=ANY(likes)', [pUserId, id]);
+        if (UpdatedValues.rowCount==0){
+            await pool.query('UPDATE comments SET likes = ARRAY_REMOVE(likes, $1) WHERE id = $2 AND $1=ANY(likes)', [pUserId, id])
+        }
+    }
+    return get(id);
+}
+
+export const DBData:DataContainer<CommentType> = {
     get:get,
     getAll:getAll,
     set:set,
     Add:Add,
     Delete:Delete,
 }
-export default DBData;
