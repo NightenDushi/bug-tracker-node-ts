@@ -6,7 +6,7 @@ const tag_router = require('./routes/tag');
 const comment_router = require('./routes/comment');
 const app = express();
 var cors = require('cors');
-const port = 3000;
+const port = process.env.BUGTRACKER_PORT;
 
 app.use(express.json({limit: '1mb'}));
 app.use(cors({
