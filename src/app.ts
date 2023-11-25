@@ -18,6 +18,7 @@ app.use('/ticket',ticket_router);
 app.use('/tag',tag_router);
 app.use('/comment',comment_router);
 
+app.use(express.static('bug-tracker-front-end/dist'))
 app.get('/', (req, res) => {
   res.send('Hello World! :)');
 });
