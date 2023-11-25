@@ -1,0 +1,3 @@
+[submodule "bug-tracker-front-end"]
+	path = bug-tracker-front-end
+	url = https://github.com/NightenDushi/bug-tracker-front-end
