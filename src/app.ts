@@ -9,9 +9,16 @@ var cors = require('cors');
 const port = process.env.BUGTRACKER_PORT;
 
 app.use(express.json({limit: '1mb'}));
+const whitelist = ['http://localhost:'+process.env.BUGTRACKER_PORT, 'https://bug-mine.nathan-guilhot.com']
 app.use(cors({
-  origin: 'http://localhost:5173'
-}))
+  origin: (origin, callback)=>{
+    if (whitelist.indexOf(origin) !== -1){
+      callback(null, true);
+      return
+    }
+    callback(new Error('Not allowed by CORS'))
+  }}
+))
 
 app.use('/user',user_router);
 app.use('/ticket',ticket_router);
