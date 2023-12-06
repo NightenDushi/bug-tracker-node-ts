@@ -2,7 +2,11 @@ import { DataContainer } from '../@types/DataContainer'
 import { UserType } from '../@types/user'
 import pool from '../pool'
 
-async function get(id:number):Promise<UserType>{
+async function get(id:number, github:boolean = false):Promise<UserType>{
+    if (github){
+        const result = await pool.query('SELECT * FROM users WHERE github_id = $1', [id]);
+        return result.rows[0];
+    }
     const result = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
     return result.rows[0];
 }
@@ -17,7 +21,7 @@ async function set(id:number, value:UserType):Promise<UserType>{
     return get(id)
 }
 async function Add(value:UserType):Promise<UserType>{
-    await pool.query('INSERT INTO users ("name", "image", "isAdmin") VALUES ($1, $2, $3)', [value.name, value.image, value.isAdmin]);
+    await pool.query('INSERT INTO users ("name", "image", "isAdmin", "github_id") VALUES ($1, $2, $3, $4)', [value.name, value.image, value.isAdmin, value.github_id]);
     const result = await pool.query('SELECT * FROM users ORDER BY id DESC LIMIT 1');
     return result.rows[0]
 }

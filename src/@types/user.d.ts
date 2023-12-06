@@ -1,6 +1,7 @@
 export type UserType = {
-    id:number,
+    id:number;
     name: string;
     image: string;
-    isAdmin:boolean
+    isAdmin:boolean;
+    github_id: number|null;
 }

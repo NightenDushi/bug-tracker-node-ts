@@ -14,6 +14,14 @@ user_router.get('/:id', async (req, res)=>{
 user_router.post('/', async (req, res)=>{
     res.send(await data.Add(req.body))
 })
+user_router.post('/github', async (req, res)=>{
+    console.log("Fetch github user: "+req.query.id)
+    //* Check if an user with that github ID exist
+    const user = await data.get(+req.query.id, true);
+    if (user!==undefined) res.send(user);
+    else res.send(await data.Add(req.body))
+
+})
 user_router.put('/:id', async (req, res)=>{
     res.send(await data.set(+req.params.id, req.body));
 })

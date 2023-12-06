@@ -12,7 +12,7 @@ async function getAll(pTicketId:number):Promise<CommentType[]>{
         return result.rows
     }
 
-    const result = await pool.query(`SELECT * FROM comments WHERE "ticketId" = $1`, [pTicketId])
+    const result = await pool.query(`SELECT * FROM comments WHERE "ticketId" = $1 ORDER BY date`, [pTicketId])
     return result.rows
 }
 
