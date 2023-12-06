@@ -1,5 +1,8 @@
 import express from 'express';
+const fs = require('fs');
+const path = require('path');
 import 'dotenv/config'
+
 const user_router = require('./routes/user');
 const ticket_router = require('./routes/ticket');
 const tag_router = require('./routes/tag');
@@ -28,9 +31,22 @@ app.use('/tag',tag_router);
 app.use('/comment',comment_router);
 app.use('/auth',auth_router);
 
-app.use(express.static('bug-tracker-front-end/dist'))
-app.get('/', (req, res) => {
-  res.send('Hello World! :)');
+const static_path = 'bug-tracker-front-end/dist';
+app.use(express.static(static_path))
+
+app.use((req, res, next)=>{
+    fs.readFile(path.join(static_path, '/index.html'), 'utf-8', (err, content) => {
+        if (err) {
+        console.log('We cannot open "index.html" file.')
+        }
+        console.log("Serve index.html")
+
+        res.writeHead(200, {
+        'Content-Type': 'text/html; charset=utf-8',
+        })
+
+        res.end(content)
+    })
 });
 app.listen(port, () => {
   return console.log(`Express is listening at http://localhost:${port}`);
