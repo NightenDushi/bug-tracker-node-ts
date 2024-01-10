@@ -3,7 +3,7 @@ const ticket_router = express.Router();
 import data from '../data/ticket_psql';
 
 ticket_router.get('/', async (req, res)=>{
-    const users = await data.getAll();
+    const users = await data.getAll(+req.query.project_id);
     res.send(users)
 });
 ticket_router.get('/:id', async (req, res)=>{
@@ -18,7 +18,7 @@ ticket_router.put('/:id', async (req, res)=>{
     res.send(await data.set(+req.params.id, req.body));
 })
 ticket_router.delete('/:id', async (req, res)=>{
-    res.send(await data.Delete(+req.params.id));
+    res.send(await data.Delete(+req.params.id, +req.query.project_id));
 })
 
 module.exports = ticket_router;

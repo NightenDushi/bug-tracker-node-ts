@@ -10,8 +10,11 @@ async function get(id:number, github:boolean = false):Promise<UserType>{
     const result = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
     return result.rows[0];
 }
-async function getAll():Promise<UserType[]>{
-    const result = await pool.query('SELECT * FROM users ORDER BY id', [])
+async function getAll(pGroupId:number):Promise<UserType[]>{
+    //TODO(Nathan) We need to do an union with the project_members table
+    const result = await pool.query(`SELECT * from users WHERE id
+        IN (SELECT id_user FROM project_members WHERE id_project = 1 
+            UNION SELECT owner_id FROM projects WHERE id = 1);`, [])
     return result.rows
 }
 //NOTE(Nathan) For now we set the whole object at once.
@@ -25,9 +28,10 @@ async function Add(value:UserType):Promise<UserType>{
     const result = await pool.query('SELECT * FROM users ORDER BY id DESC LIMIT 1');
     return result.rows[0]
 }
-async function Delete(id:number):Promise<UserType[]>{
+//TODO(Nathan) Differentiate Delete from project and delete from the whole app. We want the former in most cases
+async function Delete(id:number, pGroupId:number):Promise<UserType[]>{
     await pool.query('DELETE FROM users WHERE id = $1', [id]);
-    return getAll()
+    return getAll(pGroupId)
 }
 
 const DBData:DataContainer<UserType> = {

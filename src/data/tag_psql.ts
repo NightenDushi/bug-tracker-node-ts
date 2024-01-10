@@ -6,8 +6,8 @@ async function get(id:number):Promise<ITags>{
     const result = await pool.query('SELECT * FROM tags WHERE id = $1', [id]);
     return result.rows[0];
 }
-async function getAll():Promise<ITags[]>{
-    const result = await pool.query('SELECT * FROM tags', [])
+async function getAll(pGroupId:number):Promise<ITags[]>{
+    const result = await pool.query('SELECT * FROM tags WHERE project_id = $1', [pGroupId])
     return result.rows
 }
 
@@ -21,9 +21,9 @@ async function Add(value:ITags):Promise<ITags>{
     const result = await pool.query('SELECT * FROM tags ORDER BY id DESC LIMIT 1');
     return result.rows[0]
 }
-async function Delete(id:number):Promise<ITags[]>{
+async function Delete(id:number, pGroupId:number):Promise<ITags[]>{
     await pool.query('DELETE FROM tags WHERE id = $1', [id]);
-    return getAll()
+    return getAll(pGroupId)
 }
 
 const DBData:DataContainer<ITags> = {

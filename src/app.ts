@@ -8,6 +8,7 @@ const ticket_router = require('./routes/ticket');
 const tag_router = require('./routes/tag');
 const comment_router = require('./routes/comment');
 const auth_router = require('./routes/auth');
+const project_router = require('./routes/project');
 const app = express();
 var cors = require('cors');
 const port = process.env.BUGTRACKER_PORT;
@@ -30,6 +31,7 @@ app.use('/ticket',ticket_router);
 app.use('/tag',tag_router);
 app.use('/comment',comment_router);
 app.use('/auth',auth_router);
+app.use('/project',project_router);
 
 const static_path = 'bug-tracker-front-end/dist';
 app.use(express.static(static_path))
